@@ -2,8 +2,8 @@
 <h3>Autocalibration for EPA Stormwater Management Model (SWMM) version 5 using multi- or single objective optimization in R.
 </h3>
 <h5>You're fully responsible for the any problems related to this software - I'm not maintaining it currently</h5>
-<h6>I am working on a similar, separate and larger programming effort (in parallelized Python not R). RSWMM is only a proof of concept.</h6>
-
+<h6>Synopsis:</h6><p>This R code runs a SWMM input text file repeatedly with modification of the text file based on the last SWMM output and the next trial parameters selected by R optimization code.  The prerequisites for using the code are having a SWMM input file, calibration data, willingness to read code (it's not that bad :)), and willingness to check the output closely as the code is experimental.  These scripts currently only do autocalibration.</p>
+<h6>I am working on a similar, separate and larger programming effort (in parallelized Python not R). RSWMM is only a proof of concept. The new effort extends these ideas to a more flexible interface and tiered design optimization.  If you are interested in any of that, or have any feedback on RSWMM, please let me know (see below) </h6>
 <h4>Summary of How to Use this Code Efficiently</h4>
 <ol>
 <li>Get a SWMM .inp input text file</li>

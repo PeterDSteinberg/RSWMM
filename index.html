@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Rswmm : Autocalibration for EPA Stormwater Management Model (SWMM) version 5.  You&#39;re fully responsible for the any problems related to this software - I&#39;m not maintaining it because I am working on a similar, separate and larger programming effort.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rswmm</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/PeterDSteinberg/RSWMM">View on GitHub</a>
+
+          <h1 id="project_title">Rswmm</h1>
+          <h2 id="project_tagline">Autocalibration for EPA Stormwater Management Model (SWMM) version 5.  You&#39;re fully responsible for the any problems related to this software - I&#39;m not maintaining it because I am working on a similar, separate and larger programming effort.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/PeterDSteinberg/RSWMM/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/PeterDSteinberg/RSWMM/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="rswmm" class="anchor" href="#rswmm" aria-hidden="true"><span class="octicon octicon-link"></span></a>RSWMM</h1>
+
+<p></p><h3>
+<a id="autocalibration-for-epa-stormwater-management-model-swmm-version-5-using-multi--or-single-objective-optimization-in-r" class="anchor" href="#autocalibration-for-epa-stormwater-management-model-swmm-version-5-using-multi--or-single-objective-optimization-in-r" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autocalibration for EPA Stormwater Management Model (SWMM) version 5 using multi- or single objective optimization in R.
+</h3><h5>
+<a id="youre-fully-responsible-for-the-any-problems-related-to-this-software---im-not-maintaining-it-because-i-am-working-on-a-similar-separate-and-larger-programming-effort-in-parallelized-python-not-r-rswmm-is-only-a-proof-of-concept" class="anchor" href="#youre-fully-responsible-for-the-any-problems-related-to-this-software---im-not-maintaining-it-because-i-am-working-on-a-similar-separate-and-larger-programming-effort-in-parallelized-python-not-r-rswmm-is-only-a-proof-of-concept" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+You're fully responsible for the any problems related to this software - I'm not maintaining it because I am working on a similar, separate and larger programming effort (in parallelized Python not R). RSWMM is only a proof of concept.
+</h5>
+
+<pre>
+Version 1: December 2011
+Revision 1.1: January 1/10/2012, corrected problem in binary file reader
+General Notes
+Before editing this script do the following things:
+Move your SWMM file to a directory that can hold a lot of files
+Test that you can run your SWMM file from this directory and you haven't messed up paths to files or something
+Take your SWMM input file and replace the uncertain parameters with codes like<code><pre>
+   $1$, $2$,  $3$
+   </pre></code>
+You can repeat codes if you want the optimization algorithm to repeat a parameter.
+For example, if you know 2 subcatchments should have the same infiltration rate, you
+ can put the same code in for their infiltration rates and they will receive the same parameter
+Create a parameter bounds CSV file that looks like this (without the comment sign ):
+</pre>
+
+<p><code><pre>
+                 Code,Minimum,Maximum,Initial
+                 $1$,10,32,15
+                 $2$,10,31,20
+                 $3$,4,15,5
+                 $4$,2,8,7
+                 $5$,25,100,33
+                 $6$,20,75,33
+                 $7$,20,60,50
+</pre></code>
+Create a calibration time series data CSV that looks like this (without the comment sign ):
+<code><pre>
+Date      ,(CFS)
+1/1/07 0:01,0.08
+1/1/07 0:02,0.22
+1/1/07 0:03,0.38
+1/1/07 0:04,0.54
+1/1/07 0:05,0.67
+1/1/07 0:06,0.83
+</pre></code></p>
+
+<pre>
+REMEMBER YOU HAVE TO USE DOUBLE BACKSLASHES FOR ALL FILENAMES
+You have to manually create all directories you provide.  RSWMM does not make directories.
+Preliminaries: clear workspace and source the RSWMM code for a function library
+edit this source line to reflect where you have saved RSWMM.r.
+If you are doing a calibration run, you need to provide the following lines
+ to direct the optimizer to your files
+Calibration Data should be in a CSV with datetimes in the first column,
+and data in the second column
+The text file is assumed to have a one line header
+Call this function with the correct dateFormat for your datetimes
+the dateFormat is passed to strptime, so look for formatting information there
+for example, dates like this 1/1/07 12:00, can be read with the default dateFormat
+e.g.:
+</pre>
+
+<p><code><pre>
+Date      ,(CFS)
+1/1/07 0:01,0.08
+1/1/07 0:02,0.22
+1/1/07 0:03,0.38
+1/1/07 0:04,0.54
+1/1/07 0:05,0.67
+1/1/07 0:06,0.83
+</pre></code></p>
+
+<pre>
+if you have a non-stadard date format, you can provide that as an argument below, but in either case
+ you have to call the function that reads the calData
+getCalDataFromCSV(CSVFile=calDataCSV,dateFormat="%m/%d/%y %H:%M")
+Provide a path for the CSV containing optimization history.  This is an empty file to start out.
+Make sure you have created the directories that will hold this file
+Provide a path for the CSV containing parameter bounds
+For ease, make your parameter bounds file in this format (without the comment symbols):
+</pre>
+
+<p><code><pre>
+                 Code,Minimum,Maximum,Initial
+                 $1$,10,32,15
+                 $2$,10,31,20
+                 $3$,4,15,5
+                 $4$,2,8,7
+                 $5$,25,100,33
+                 $6$,20,75,33
+                 $7$,20,60,50
+</pre></code>
+</p><pre>
+Initialize the iteration count and the optimization history, in case you
+want to stop the model before the optimization function is complete. If you
+ press the STOP button before the optimzation function returns, you can check your
+csv provided above or the variable optimizationHistory for intermediate results
+Select single or multiobjective optimization by setting one of the two following variables to TRUE
+Set useOptim to TRUE if you are doing single objective optimization, otherwise FALSE
+set useMCO to TRUE if you are doing multiobjective optimization, otherwise FALSE
+
+<p>Single Objective Calibration Begins Here</p>
+
+<p>If you are doing multi-objective optimization, this section is ignored
+Provide options for single objective optimization
+Initialize the options object
+Pick one of six methods for calibration:
+ may be one of  = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"),
+Look at the documentation in RSWMM.R for the getSWMMTimeSeriesData function
+to develop a function call that returns your time series
+ of interest from the SWMM binary file
+ a few notes on this funtion:
+you always have to pass in headobj=headobj.  This is so that you don't reread the header on every iteration
+you select an iType, which determines whether you are looking for a node, link, subcatchment, or system variable
+you provide a vIndex, which is the parameter you want to return (e.g. depth)
+you provide the nameInOutputFile.  This will be the same as the node, link, or subcatchment number in the input file.
+if you are getting a system variable's results, you can leave nameInOutputFile as ""
+you should provide a function call in quotes that will subsequently be evaled in the objective function
+Put the parameter bounds and intialization in the optimization options: you shouldn't need to change these
+ lines if you have imported them using RSWMM formats/functions
+Provide a base name for the input/output files that are created
+RSWMM will add the necessary extensions.  It also adds random text so that it is thread safe, and
+ you can run more than one RSWMM.r optimization at the same time
+Provide a SWMM template file that has the replacement codes
+Provide a path to SWMM.exe.  The binary file reader is written for SWMM 5.0.022.  For earlier versions of SWMM,
+ you would have to edit the binary file reader because the output format has changed.
+Look at RSWMM.R's performanceStatsAsMinimization function and select one of the performance statistics
+The following function call does the optimization.  It should not need any edits,
+unless you want to look at the optim function documentation and provide more specific
+ control parameters.
+set the working directory in R to be the directory of the swmm template so that LID reports 
+show up in the right place this is a 1/24/2012 edit</p>
+
+<p>End of Single Objective Calibration Section</p>
+
+<p>Start of Multiobjective Optimization </p>
+
+<p>If you are doing single objective optimization by setting useOptim to TRUE, this
+section is ignored.
+initialize the multiobjective optimization options object
+Look at the documentation in RSWMM.R for the getSWMMTimeSeriesData function
+to develop a function call that returns your time series
+ of interest from the SWMM binary file
+ a few notes on this funtion:
+you always have to pass in headobj=headobj.  This is so that you don't reread the header on every iteration
+you select an iType, which determines whether you are looking for a node, link, subcatchment, or system variable
+you provide a vIndex, which is the parameter you want to return (e.g. depth)
+you provide the nameInOutputFile.  This will be the same as the node, link, or subcatchment number in the input file.
+if you are getting a system variable's results, you can leave nameInOutputFile as ""
+you should provide a function call in quotes that will subsequently be evaled in the objective function
+Provide upper and lower bounds.  No need to edit these lines if you have imported parameters using RSWMM functions/formats
+Provide path to SWMM.exe
+Select one or more performance stats listed in RSWMM.R
+Provide a base output name for SWMM input/output files
+Provide a path to your SWMM template file with replacement codes in it
+set the working directory in R to be the directory of the swmm template so that LID reports 
+show up in the right place this is a 1/24/2012 edit
+This is the function call to NSGA2.  Change this if
+ you want to further control the process.  (See the documentation for mco package: NSGS2 function)</p>
+
+<p>END of multiobjective optimization</p>
+
+<p></p><pre></pre></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rswmm maintained by <a href="https://github.com/PeterDSteinberg">PeterDSteinberg</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

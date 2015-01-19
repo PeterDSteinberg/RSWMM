@@ -1,8 +1,9 @@
 # RSWMM
-Autocalibration for EPA Stormwater Management Model (SWMM) version 5 using multi- or single objective optimization in R.
+<h3>Autocalibration for EPA Stormwater Management Model (SWMM) version 5 using multi- or single objective optimization in R.
 
 You're fully responsible for the any problems related to this software - I'm not maintaining it because I am working on a similar, separate and larger programming effort (in parallelized Python not R). It was only a proof of concept.
-
+</h3>
+<pre>
 Version 1: December 2011
 Revision 1.1: January 1/10/2012, corrected problem in binary file reader
 General Notes
@@ -16,6 +17,7 @@ You can repeat codes if you want the optimization algorithm to repeat a paramete
 For example, if you know 2 subcatchments should have the same infiltration rate, you
  can put the same code in for their infiltration rates and they will receive the same parameter
 Create a parameter bounds CSV file that looks like this (without the comment sign ):
+</pre>
 <code><pre>
                  Code,Minimum,Maximum,Initial
                  $1$,10,32,15
@@ -36,6 +38,7 @@ Date      ,(CFS)
 1/1/07 0:05,0.67
 1/1/07 0:06,0.83
 </pre></code>
+<pre>
 REMEMBER YOU HAVE TO USE DOUBLE BACKSLASHES FOR ALL FILENAMES
 You have to manually create all directories you provide.  RSWMM does not make directories.
 Preliminaries: clear workspace and source the RSWMM code for a function library
@@ -49,6 +52,7 @@ Call this function with the correct dateFormat for your datetimes
 the dateFormat is passed to strptime, so look for formatting information there
 for example, dates like this 1/1/07 12:00, can be read with the default dateFormat
 e.g.:
+</pre>
 <code><pre>
 Date      ,(CFS)
 1/1/07 0:01,0.08
@@ -58,6 +62,7 @@ Date      ,(CFS)
 1/1/07 0:05,0.67
 1/1/07 0:06,0.83
 </pre></code>
+<pre>
 if you have a non-stadard date format, you can provide that as an argument below, but in either case
  you have to call the function that reads the calData
 getCalDataFromCSV(CSVFile=calDataCSV,dateFormat="%m/%d/%y %H:%M")
@@ -65,6 +70,7 @@ Provide a path for the CSV containing optimization history.  This is an empty fi
 Make sure you have created the directories that will hold this file
 Provide a path for the CSV containing parameter bounds
 For ease, make your parameter bounds file in this format (without the comment symbols):
+</pre>
 <code><pre>
                  Code,Minimum,Maximum,Initial
                  $1$,10,32,15
@@ -75,6 +81,7 @@ For ease, make your parameter bounds file in this format (without the comment sy
                  $6$,20,75,33
                  $7$,20,60,50
 </pre></code>
+<pre>
 Initialize the iteration count and the optimization history, in case you
 want to stop the model before the optimization function is complete. If you
  press the STOP button before the optimzation function returns, you can check your
@@ -145,3 +152,4 @@ This is the function call to NSGA2.  Change this if
 
 END of multiobjective optimization
 
+<pre>

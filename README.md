@@ -1,7 +1,8 @@
 # RSWMM
-Autocalibration for EPA Stormwater Management Model (SWMM) version 5.  You're fully responsible for the any problems related to this software - I'm not maintaining it because I am working on a similar, separate and larger programming effort.
-runRSWMM Developed by Peter Steinberg of Herrera Environmental Consultants
-Send bugs and feature requests to: psteinberg@herrerainc.com, 206-715-4492
+Autocalibration for EPA Stormwater Management Model (SWMM) version 5 using multi- or single objective optimization in R.
+
+You're fully responsible for the any problems related to this software - I'm not maintaining it because I am working on a similar, separate and larger programming effort (in parallelized Python not R). It was only a proof of concept.
+
 Version 1: December 2011
 Revision 1.1: January 1/10/2012, corrected problem in binary file reader
 General Notes

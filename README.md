@@ -8,12 +8,14 @@ General Notes
 Before editing this script do the following things:
 Move your SWMM file to a directory that can hold a lot of files
 Test that you can run your SWMM file from this directory and you haven't messed up paths to files or something
-Take your SWMM input file and replace the uncertain parameters with codes like
+Take your SWMM input file and replace the uncertain parameters with codes like<code><pre>
    $1$, $2$,  $3$
+   </pre></code>
 You can repeat codes if you want the optimization algorithm to repeat a parameter.
 For example, if you know 2 subcatchments should have the same infiltration rate, you
  can put the same code in for their infiltration rates and they will receive the same parameter
 Create a parameter bounds CSV file that looks like this (without the comment sign ):
+<code><pre>
                  Code,Minimum,Maximum,Initial
                  $1$,10,32,15
                  $2$,10,31,20
@@ -22,7 +24,9 @@ Create a parameter bounds CSV file that looks like this (without the comment sig
                  $5$,25,100,33
                  $6$,20,75,33
                  $7$,20,60,50
+</pre></code>
 Create a calibration time series data CSV that looks like this (without the comment sign ):
+<code><pre>
 Date      ,(CFS)
 1/1/07 0:01,0.08
 1/1/07 0:02,0.22
@@ -30,6 +34,7 @@ Date      ,(CFS)
 1/1/07 0:04,0.54
 1/1/07 0:05,0.67
 1/1/07 0:06,0.83
+</pre></code>
 REMEMBER YOU HAVE TO USE DOUBLE BACKSLASHES FOR ALL FILENAMES
 You have to manually create all directories you provide.  RSWMM does not make directories.
 Preliminaries: clear workspace and source the RSWMM code for a function library
@@ -43,6 +48,7 @@ Call this function with the correct dateFormat for your datetimes
 the dateFormat is passed to strptime, so look for formatting information there
 for example, dates like this 1/1/07 12:00, can be read with the default dateFormat
 e.g.:
+<code><pre>
 Date      ,(CFS)
 1/1/07 0:01,0.08
 1/1/07 0:02,0.22
@@ -50,7 +56,7 @@ Date      ,(CFS)
 1/1/07 0:04,0.54
 1/1/07 0:05,0.67
 1/1/07 0:06,0.83
-
+</pre></code>
 if you have a non-stadard date format, you can provide that as an argument below, but in either case
  you have to call the function that reads the calData
 getCalDataFromCSV(CSVFile=calDataCSV,dateFormat="%m/%d/%y %H:%M")
@@ -58,6 +64,7 @@ Provide a path for the CSV containing optimization history.  This is an empty fi
 Make sure you have created the directories that will hold this file
 Provide a path for the CSV containing parameter bounds
 For ease, make your parameter bounds file in this format (without the comment symbols):
+<code><pre>
                  Code,Minimum,Maximum,Initial
                  $1$,10,32,15
                  $2$,10,31,20
@@ -66,6 +73,7 @@ For ease, make your parameter bounds file in this format (without the comment sy
                  $5$,25,100,33
                  $6$,20,75,33
                  $7$,20,60,50
+</pre></code>
 Initialize the iteration count and the optimization history, in case you
 want to stop the model before the optimization function is complete. If you
  press the STOP button before the optimzation function returns, you can check your

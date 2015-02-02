@@ -74,4 +74,4 @@ source("O:\\departments\\Water Quality\\Users\\Peter\\programs\\RSWMM\\RSWMM.r")
 calDataCSV="O:\\departments\\Water Quality\\Users\\Peter\\programs\\RSWMM\\testingData\\CalData1.csv"
 
 </code></pre>
-*Read the rest of <a href="https://github.com/PeterDSteinberg/RSWMM/edit/master/runRSWMM.r">runRSWMM.r</a>
+*Read the rest of <a href="https://github.com/PeterDSteinberg/RSWMM/blob/master/runRSWMM.r">runRSWMM.r</a>

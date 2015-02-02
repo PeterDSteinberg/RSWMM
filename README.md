@@ -13,7 +13,7 @@
 <li>Run it after making sure you have disk space or you have edited the code to programmatically delete files</li>
 </ol>
 <h4>runSWMM.r is quoted below.  It is just a lot of help comments around R function calls that use SWMM binary file reader as part of autocalibration.</h4>
-<pre>
+<pre><code>
 #runRSWMM Developed by Peter Steinberg
 #Version 1: December 2011
 #Revision 1.1: January 1/10/2012, corrected problem in binary file reader
@@ -81,12 +81,9 @@ calDataCSV="O:\\departments\\Water Quality\\Users\\Peter\\programs\\RSWMM\\testi
 #getCalDataFromCSV(CSVFile=calDataCSV,dateFormat="%m/%d/%y %H:%M")
 calDataObj<-getCalDataFromCSV(CSVFile=calDataCSV)
 
-
-
-#Provide a path for the CSV containing optimization history.  This is an empty file to start out.
+Provide a path for the CSV containing optimization history.  This is an empty file to start out.
 #Make sure you have created the directories that will hold this file
 optFile="O:\\departments\\Water Quality\\Users\\Peter\\programs\\RSWMM\\testingData\\Optimization History.csv"
-
 
 #Provide a path for the CSV containing parameter bounds
 #For ease, make your parameter bounds file in this format (without the comment symbols):
@@ -248,4 +245,4 @@ if(useMCO){
 ##################################################################################
 ########################END of multiobjective optimization########################
 ##################################################################################
-</pre>
+</code></pre>

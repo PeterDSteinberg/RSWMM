@@ -58,7 +58,7 @@
 <h4>
 <a id="runswmmr-is-quoted-below--it-is-just-a-lot-of-help-comments-around-r-function-calls-that-use-swmm-binary-file-reader-as-part-of-autocalibration" class="anchor" href="#runswmmr-is-quoted-below--it-is-just-a-lot-of-help-comments-around-r-function-calls-that-use-swmm-binary-file-reader-as-part-of-autocalibration" aria-hidden="true"><span class="octicon octicon-link"></span></a>runSWMM.r is quoted below.  It is just a lot of help comments around R function calls that use SWMM binary file reader as part of autocalibration.</h4>
 
-<pre>
+<pre><code>
 #runRSWMM Developed by Peter Steinberg
 #Version 1: December 2011
 #Revision 1.1: January 1/10/2012, corrected problem in binary file reader
@@ -94,9 +94,6 @@
 #REMEMBER YOU HAVE TO USE DOUBLE BACKSLASHES FOR ALL FILENAMES##########
 #You have to manually create all directories you provide.  RSWMM does not make directories.
 
-
-
-
 #Preliminaries: clear workspace and source the RSWMM code for a function library
 rm(list=ls())
 #edit this source line to reflect where you have saved RSWMM.r.
@@ -121,10 +118,9 @@ source("O:\\departments\\Water Quality\\Users\\Peter\\programs\\RSWMM\\RSWMM.r")
 #
 calDataCSV="O:\\departments\\Water Quality\\Users\\Peter\\programs\\RSWMM\\testingData\\CalData1.csv"
 
-#if you have a non-stadard date format, you can provide that as an argument below, but in either case
-# you have to call the function that reads the calData
-#getCalDataFromCSV(CSVFile=calDataCSV,dateFormat="%m/%d/%y %H:%M")
-calDataObj</pre>
+</code></pre>
+
+<p>*Read the rest of <a href="https://github.com/PeterDSteinberg/RSWMM/blob/master/runRSWMM.r">runRSWMM.r</a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/PeterDSteinberg">PeterDSteinberg</a></p>
